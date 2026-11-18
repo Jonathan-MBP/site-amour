@@ -2,48 +2,56 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crée ton lien 💘</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#3d1170">
+  <title>Crée ton LoveQuiz 💘</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="hearts" aria-hidden="true"></div>
+  <div class="bg" aria-hidden="true"><div class="hearts"></div></div>
 
-  <main class="card">
-    <section class="step active">
-      <div class="emoji big">💘</div>
-      <h1>Crée ton lien</h1>
-      <p class="lead">Remplis, copie le lien, envoie-le. C'est tout.</p>
+  <main class="app">
+    <section class="screen active">
+      <div class="create">
+        <h1 class="logo">Love<span>Quiz!</span></h1>
+        <p class="lead">Remplis, copie le lien, envoie-le. Ses réponses te reviennent à la fin.</p>
 
-      <form id="create-form" autocomplete="off">
-        <label class="label" for="pour">Son prénom</label>
-        <input id="pour" type="text" maxlength="30" placeholder="Ex : Inès" required>
+        <form id="create-form" autocomplete="off">
+          <label class="label" for="pour">Son prénom</label>
+          <input id="pour" type="text" maxlength="30" placeholder="Ex : Inès" required>
 
-        <label class="label" for="de">Ton prénom</label>
-        <input id="de" type="text" maxlength="30" placeholder="Ex : Jonathan" required>
+          <span class="label">C'est…</span>
+          <div class="seg" role="radiogroup" aria-label="Genre pour les accords">
+            <label><input type="radio" name="g" value="f" checked><span>Elle 👩</span></label>
+            <label><input type="radio" name="g" value="m"><span>Il 👨</span></label>
+          </div>
 
-        <label class="label" for="tel">Ton numéro WhatsApp (optionnel)</label>
-        <input id="tel" type="tel" maxlength="20" placeholder="Ex : 33612345678">
-        <p class="hint">Format international sans le « + ». Sans numéro, la réponse s'envoie par SMS ou partage.</p>
+          <label class="label" for="de">Ton prénom</label>
+          <input id="de" type="text" maxlength="30" placeholder="Ex : Jonathan" required>
 
-        <button class="btn primary" type="submit">Générer le lien</button>
-      </form>
+          <label class="label" for="tel">Ton numéro WhatsApp (optionnel)</label>
+          <input id="tel" type="tel" maxlength="20" placeholder="Ex : 33612345678">
+          <p class="hint">Format international sans le « + ». Sans numéro, ses réponses s'envoient par partage ou SMS.</p>
 
-      <div class="result" id="result" hidden>
-        <input id="link" type="text" readonly aria-label="Lien généré">
-        <div class="row">
-          <button class="btn primary" id="copy">Copier</button>
-          <a class="btn ghost" id="preview" target="_blank" rel="noopener">Tester</a>
+          <button class="btn big" type="submit">Générer le lien</button>
+        </form>
+
+        <div class="result-link" id="result" hidden>
+          <input id="link" type="text" readonly aria-label="Lien généré">
+          <div class="row">
+            <button class="btn" id="copy" type="button">Copier</button>
+            <a class="btn ghost" id="preview" target="_blank" rel="noopener" style="margin-top:0">Tester</a>
+          </div>
+          <p class="feedback" id="copy-feedback" aria-live="polite"></p>
         </div>
-        <p class="feedback" id="copy-feedback" aria-live="polite"></p>
       </div>
     </section>
   </main>
 
-  <footer class="footer"><a href="index.html">← Retour</a></footer>
+  <footer class="footer"><a href="index.html">← Retour au quiz</a></footer>
   <script src="js/creer.js"></script>
 </body>
 </html>

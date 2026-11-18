@@ -1,42 +1,49 @@
-# 💌 Site d'amour
+# 💘 LoveQuiz
 
-Un petit site interactif pour demander à quelqu'un de sortir avec toi.
+Un quiz façon Kahoot pour apprendre à connaître quelqu'un… et lui demander de sortir avec toi.
 
-**Le parcours :**
-1. Une lettre à ouvrir
-2. Son prénom (avec des réactions selon ce qu'elle ou il écrit)
-3. Un mini-quiz « tu préfères… » (gauche ou droite)
-4. Une note sur 10 (en dessous de 5, le site remet à 10 😤)
-5. **La grande question** : le bouton « Non » s'enfuit, change de texte, et finit par devenir un « Oui »
-6. Le choix du rendez-vous (activité + date + petit mot)
-7. Un ticket récap et un bouton pour t'envoyer la réponse (WhatsApp, partage ou SMS)
+**🎮 Jouer :** https://jonathan-mbp.github.io/site-amour/
+**🔗 Créer ton lien :** https://jonathan-mbp.github.io/site-amour/creer.html
 
-## Utilisation
+## Le parcours
 
-Va sur la page **`creer.html`**, remplis les prénoms (et ton numéro WhatsApp si tu veux), copie le lien et envoie-le.
+| Étape | Ce qui se passe |
+|---|---|
+| Lobby | Écran d'accueil avec un PIN de jeu, le prénom et le nombre de questions |
+| Chapitre 1 · Ce que tu aimes | Plat, saison, musique, soirée, date idéal, ce qui fait craquer, ce qui rend heureux·se |
+| Chapitre 2 · Ce que tu n'aimes pas | Red flag, ce qui agace, gestion des disputes, ce qu'il ne faut jamais faire |
+| Chapitre 3 · Toi & moi | Souvenirs, langage de l'amour, ce qu'elle aime chez moi, ce qui la freine, moi en 3 mots |
+| Chapitre 4 · Degré d'amour | Pense à moi, temps de réponse, réaction quand on se voit, nous dans 1 an, degré d'amour en % |
+| Verdict | Jauge animée avec le **score d'amour** et un verdict |
+| La question | « Tu veux sortir avec moi ? » Le bouton **Non** fuit sur tout l'écran sans jamais toucher le Oui, puis démissionne |
+| Rendez-vous | Activité (son date idéal est mis en avant ⭐), date, petit mot |
+| Fin | Un ticket récap, puis **toutes ses réponses t'arrivent** sur WhatsApp (ou par partage / SMS) |
 
-Le lien ressemble à ça :
+Il y a 4 types de questions : **choix unique** (4 cases colorées et un chrono), **choix multiples**, **réponse libre** et **curseur**.
 
-```
-https://<ton-pseudo>.github.io/site-amour/?pour=Inès&de=Jonathan&tel=33612345678
-```
+## Personnaliser
+
+- **Les questions** sont toutes dans [`js/questions.js`](js/questions.js). Le fichier est commenté : tu peux changer les textes, les réactions, les images (emoji) et les points d'amour.
+- **Ta photo** : ajoute une photo `img/moi.jpg` dans le repo et elle s'affichera sur l'écran d'accueil.
+
+## Paramètres du lien
 
 | Paramètre | Rôle |
-|-----------|------|
-| `pour` | Prénom de la personne qui reçoit le lien (sinon le site le lui demande) |
-| `de`   | Ton prénom |
-| `tel`  | Ton numéro WhatsApp au format international sans `+` (optionnel) |
+|---|---|
+| `pour` | Prénom de la personne qui joue (sinon le quiz le lui demande) |
+| `de` | Ton prénom |
+| `g` | `f` (elle) ou `m` (il), pour les accords |
+| `tel` | Ton numéro WhatsApp au format international sans `+` (optionnel) |
 
 ## Tech
 
-HTML, CSS et JavaScript pur — aucune dépendance, aucun build. Hébergé gratuitement sur GitHub Pages.
+HTML, CSS et JavaScript pur, sans dépendance ni build. Les images emoji viennent de [Twemoji](https://github.com/jdecked/twemoji) (licence CC-BY 4.0).
 
 ```
-index.html     → le parcours
-creer.html     → générateur de lien
-css/style.css  → styles (mode clair + sombre)
-js/app.js      → logique des étapes (if / else, validation, bouton qui fuit, confettis)
-js/creer.js    → génération du lien
+index.html        → le quiz
+creer.html        → générateur de lien
+css/style.css     → styles
+js/questions.js   → LES QUESTIONS (à modifier)
+js/app.js         → moteur : écrans, types de questions, score, bouton qui fuit, envoi
+js/creer.js       → génération du lien
 ```
-
-Pour tester en local : ouvre simplement `index.html` dans ton navigateur.

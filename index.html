@@ -2,102 +2,150 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>J'ai une question pour toi 💌</title>
-  <meta name="description" content="Un petit message rien que pour toi.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#3d1170">
+  <title>Le quiz de ton cœur 💘</title>
+  <meta name="description" content="Un quiz rien que pour toi.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="hearts" aria-hidden="true"></div>
+  <div class="bg" aria-hidden="true"><div class="hearts"></div></div>
 
-  <main class="card" id="card">
-    <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+  <!-- Barre du haut (pendant le quiz) -->
+  <header class="topbar" id="topbar" hidden>
+    <span class="pill" id="q-count">1 / 20</span>
+    <span class="pill soft" id="q-chapter">Chapitre</span>
+    <span class="pill player" id="q-player">👤</span>
+  </header>
+  <div class="progress" id="progress" hidden><span id="progress-bar"></span></div>
 
-    <!-- Étape 0 : intro -->
-    <section class="step active" data-step="intro">
-      <div class="emoji big">💌</div>
-      <h1>Coucou <span class="name-slot">toi</span>&nbsp;!</h1>
-      <p class="lead"><span class="from-slot">Quelqu'un</span> a un petit truc à te demander…</p>
-      <button class="btn primary" data-next>Ouvrir la lettre</button>
-    </section>
+  <main class="app">
 
-    <!-- Étape 1 : prénom (sautée si ?pour= est dans l'URL) -->
-    <section class="step" data-step="name">
-      <div class="emoji">✍️</div>
-      <h2>D'abord, c'est quoi ton prénom ?</h2>
-      <form id="name-form" class="field" autocomplete="off">
-        <input id="name-input" type="text" maxlength="30" placeholder="Ton prénom" aria-label="Ton prénom">
-        <button class="btn primary" type="submit">Valider</button>
-      </form>
-      <p class="feedback" id="name-feedback" aria-live="polite"></p>
-    </section>
-
-    <!-- Étape 2 : quiz gauche / droite -->
-    <section class="step" data-step="quiz">
-      <p class="kicker" id="quiz-count">Question 1/3</p>
-      <h2 id="quiz-question">Tu préfères…</h2>
-      <div class="choices">
-        <button class="choice" data-side="0"><span class="emoji" id="quiz-e0"></span><span id="quiz-a0"></span></button>
-        <button class="choice" data-side="1"><span class="emoji" id="quiz-e1"></span><span id="quiz-a1"></span></button>
-      </div>
-      <p class="feedback" id="quiz-feedback" aria-live="polite"></p>
-    </section>
-
-    <!-- Étape 3 : jauge -->
-    <section class="step" data-step="scale">
-      <div class="emoji" id="scale-emoji">🙂</div>
-      <h2>Sois honnête : tu me kiffes à combien sur 10 ?</h2>
-      <input id="scale" type="range" min="0" max="10" value="5" aria-label="Note sur 10">
-      <p class="scale-value"><span id="scale-value">5</span>/10</p>
-      <p class="feedback" id="scale-feedback" aria-live="polite"></p>
-      <button class="btn primary" id="scale-next">C'est ma réponse</button>
-    </section>
-
-    <!-- Étape 4 : la grande question -->
-    <section class="step" data-step="ask">
-      <div class="emoji big" id="ask-emoji">🥺</div>
-      <h2><span class="name-slot">Toi</span>, tu veux sortir avec moi ?</h2>
-      <p class="feedback" id="ask-feedback" aria-live="polite"></p>
-      <div class="ask-zone" id="ask-zone">
-        <button class="btn primary" id="yes">Oui 💖</button>
-        <button class="btn ghost" id="no">Non</button>
+    <!-- ÉCRAN : accueil façon "lobby" -->
+    <section class="screen active" id="s-intro">
+      <div class="lobby">
+        <p class="pin">PIN DU JEU <strong>1 4 0 2</strong></p>
+        <img class="avatar" id="my-photo" src="img/moi.jpg" alt="" hidden>
+        <h1 class="logo">Love<span>Quiz!</span></h1>
+        <p class="lead" id="intro-lead">Un quiz rien que pour toi</p>
+        <ul class="stats" id="intro-stats"></ul>
+        <form id="name-form" class="name-form" autocomplete="off" hidden>
+          <input id="name-input" type="text" maxlength="30" placeholder="Ton prénom" aria-label="Ton prénom">
+        </form>
+        <p class="feedback" id="intro-feedback" aria-live="polite"></p>
+        <button class="btn big" id="start">C'est parti !</button>
       </div>
     </section>
 
-    <!-- Étape 5 : le rendez-vous -->
-    <section class="step" data-step="date">
-      <div class="emoji big">🥳</div>
-      <h2>YESSS ! On fait quoi ?</h2>
-      <div class="chips" id="activities" role="radiogroup" aria-label="Activité">
-        <button class="chip" data-value="un resto 🍝">🍝 Resto</button>
-        <button class="chip" data-value="un ciné 🎬">🎬 Ciné</button>
-        <button class="chip" data-value="une balade 🌙">🌙 Balade</button>
-        <button class="chip" data-value="une soirée film à la maison 🍿">🍿 Film à la maison</button>
+    <!-- ÉCRAN : transition de chapitre -->
+    <section class="screen" id="s-chapter">
+      <div class="chapter">
+        <p class="chapter-num" id="ch-num">Chapitre 1</p>
+        <div class="chapter-img" id="ch-img"></div>
+        <h2 id="ch-title">Titre</h2>
+        <p class="lead" id="ch-intro"></p>
+        <button class="btn" id="ch-go">Je suis prête</button>
       </div>
-      <label class="label" for="date-input">Quel jour ?</label>
-      <input id="date-input" type="date">
-      <label class="label" for="msg-input">Un petit mot (optionnel)</label>
-      <textarea id="msg-input" maxlength="200" rows="2" placeholder="J'ai trop hâte…"></textarea>
-      <p class="feedback" id="date-feedback" aria-live="polite"></p>
-      <button class="btn primary" id="date-next">Confirmer le rendez-vous</button>
     </section>
 
-    <!-- Étape 6 : récap -->
-    <section class="step" data-step="done">
-      <div class="emoji big">💞</div>
-      <h2>C'est noté !</h2>
-      <div class="ticket" id="ticket"></div>
-      <a class="btn primary" id="send" target="_blank" rel="noopener">Envoyer ma réponse 📲</a>
-      <button class="btn ghost small" id="restart">Recommencer</button>
+    <!-- ÉCRAN : question -->
+    <section class="screen" id="s-question">
+      <div class="q-box">
+        <h2 id="q-title">Question</h2>
+      </div>
+      <div class="q-media">
+        <div class="timer" id="timer" hidden>
+          <svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19"/><circle class="t-ring" id="t-ring" cx="22" cy="22" r="19"/></svg>
+          <span id="t-num">25</span>
+        </div>
+        <div class="q-img" id="q-img"></div>
+        <p class="q-hint" id="q-hint"></p>
+      </div>
+      <div class="answers" id="answers"></div>
+      <div class="q-extra" id="q-extra"></div>
+    </section>
+
+    <!-- ÉCRAN : verdict -->
+    <section class="screen" id="s-result">
+      <div class="result">
+        <p class="chapter-num">Résultat du quiz</p>
+        <h2>Ton score d'amour</h2>
+        <div class="meter" role="img" aria-label="Score d'amour">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="m-bg" cx="60" cy="60" r="52"/>
+            <circle class="m-fill" id="m-fill" cx="60" cy="60" r="52"/>
+          </svg>
+          <div class="m-center"><span id="m-num">0</span><small>%</small></div>
+        </div>
+        <div class="verdict">
+          <div class="v-emoji" id="v-emoji"></div>
+          <h3 id="v-title"></h3>
+          <p id="v-text"></p>
+        </div>
+        <ul class="highlights" id="highlights"></ul>
+        <button class="btn big" id="to-ask">Maintenant, la vraie question…</button>
+      </div>
+    </section>
+
+    <!-- ÉCRAN : la grande question -->
+    <section class="screen" id="s-ask">
+      <div class="ask">
+        <div class="ask-emoji" id="ask-emoji">🥺</div>
+        <h2 id="ask-title">Tu veux sortir avec moi ?</h2>
+        <p class="feedback light" id="ask-feedback" aria-live="polite"></p>
+        <div class="ask-row">
+          <button class="btn yes" id="yes">Oui 💖</button>
+          <button class="btn no" id="no">Non</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÉCRAN : rendez-vous -->
+    <section class="screen" id="s-date">
+      <div class="panel">
+        <div class="ask-emoji">🥳</div>
+        <h2>YESSS ! On fait quoi ?</h2>
+        <div class="chips" id="activities" role="radiogroup" aria-label="Activité"></div>
+        <label class="label" for="date-input">Quel jour ?</label>
+        <input id="date-input" type="date">
+        <label class="label" for="msg-input">Un petit mot pour moi (optionnel)</label>
+        <textarea id="msg-input" maxlength="200" rows="2" placeholder="J'ai trop hâte…"></textarea>
+        <p class="feedback" id="date-feedback" aria-live="polite"></p>
+        <button class="btn big full" id="date-next">Confirmer le rendez-vous</button>
+      </div>
+    </section>
+
+    <!-- ÉCRAN : fin -->
+    <section class="screen" id="s-done">
+      <div class="panel">
+        <div class="ask-emoji">💞</div>
+        <h2>C'est noté !</h2>
+        <div class="ticket" id="ticket"></div>
+        <a class="btn big full" id="send" target="_blank" rel="noopener">Envoyer mes réponses 📲</a>
+        <details class="recap">
+          <summary>Voir toutes mes réponses</summary>
+          <ul id="recap-list"></ul>
+        </details>
+        <button class="btn ghost" id="restart">Rejouer</button>
+      </div>
     </section>
   </main>
 
-  <footer class="footer"><a href="creer.html">Crée ton propre lien 💘</a></footer>
+  <!-- Bandeau de réaction après chaque réponse (comme Kahoot) -->
+  <div class="reaction" id="reaction" hidden>
+    <div class="r-emoji" id="r-emoji"></div>
+    <p class="r-text" id="r-text"></p>
+    <button class="btn light" id="r-next">Suivant →</button>
+    <span class="r-bar"><span id="r-bar"></span></span>
+  </div>
+
+  <footer class="footer" id="footer"><a href="creer.html">Crée ton propre quiz 💘</a></footer>
 
   <canvas id="confetti" aria-hidden="true"></canvas>
+  <script src="js/questions.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

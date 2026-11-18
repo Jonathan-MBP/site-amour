@@ -2,53 +2,51 @@
 (function () {
   "use strict";
 
-  const form = document.getElementById("create-form");
-  const result = document.getElementById("result");
-  const linkInput = document.getElementById("link");
-  const feedback = document.getElementById("copy-feedback");
+  const $ = (id) => document.getElementById(id);
+  const cleanName = (v) => v.replace(/[<>{}|]/g, "").trim().slice(0, 30);
 
-  form.addEventListener("submit", (e) => {
+  $("create-form").addEventListener("submit", (e) => {
     e.preventDefault();
-    const pour = document.getElementById("pour").value.trim();
-    const de = document.getElementById("de").value.trim();
-    const tel = document.getElementById("tel").value.replace(/\D/g, "");
+    const pour = cleanName($("pour").value);
+    const de = cleanName($("de").value);
+    const tel = $("tel").value.replace(/\D/g, "");
+    const g = document.querySelector('input[name="g"]:checked').value;
 
-    if (!pour || !de) return; // les champs "required" gèrent le message
+    if (!pour || !de) return; // les champs "required" affichent déjà le message
 
-    // URL de index.html dans le même dossier que cette page
-    const base = new URL("index.html", window.location.href);
-    base.searchParams.set("pour", pour);
-    base.searchParams.set("de", de);
-    if (tel) base.searchParams.set("tel", tel);
+    const url = new URL("index.html", window.location.href);
+    url.searchParams.set("pour", pour);
+    url.searchParams.set("de", de);
+    url.searchParams.set("g", g);
+    if (tel) url.searchParams.set("tel", tel);
 
-    linkInput.value = base.toString();
-    document.getElementById("preview").href = base.toString();
-    result.hidden = false;
-    feedback.textContent = "";
-    linkInput.select();
+    $("link").value = url.toString();
+    $("preview").href = url.toString();
+    $("result").hidden = false;
+    $("copy-feedback").textContent = "";
+    $("link").select();
   });
 
-  document.getElementById("copy").addEventListener("click", async () => {
+  $("copy").addEventListener("click", async () => {
     try {
-      await navigator.clipboard.writeText(linkInput.value);
-      feedback.textContent = "Lien copié ! Envoie-le 💌";
+      await navigator.clipboard.writeText($("link").value);
+      $("copy-feedback").textContent = "Lien copié ! Envoie-le 💌";
     } catch {
-      linkInput.select();
-      feedback.textContent = "Sélectionné — fais Ctrl+C / appui long pour copier.";
+      $("link").select();
+      $("copy-feedback").textContent = "Sélectionné — fais Ctrl+C ou appui long pour copier.";
     }
   });
 
-  // Cœurs en fond (même effet que la page principale)
+  // Cœurs en fond
   const box = document.querySelector(".hearts");
-  ["💗", "💕", "💖", "❤️", "💘"].forEach((icon, i) => {
-    for (let k = 0; k < 3; k++) {
-      const h = document.createElement("span");
-      h.textContent = icon;
-      h.style.left = Math.random() * 100 + "%";
-      h.style.setProperty("--size", 14 + Math.random() * 22 + "px");
-      h.style.setProperty("--dur", 9 + Math.random() * 10 + "s");
-      h.style.setProperty("--delay", -Math.random() * 15 + "s");
-      box.appendChild(h);
-    }
-  });
+  const icons = ["💗", "💕", "💖", "❤️", "💘", "✨"];
+  for (let i = 0; i < 14; i++) {
+    const h = document.createElement("span");
+    h.textContent = icons[i % icons.length];
+    h.style.left = Math.random() * 100 + "%";
+    h.style.setProperty("--size", 14 + Math.random() * 20 + "px");
+    h.style.setProperty("--dur", 10 + Math.random() * 10 + "s");
+    h.style.setProperty("--delay", -Math.random() * 18 + "s");
+    box.appendChild(h);
+  }
 })();
