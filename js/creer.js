@@ -37,16 +37,15 @@
     }
   });
 
-  // Cœurs en fond
-  const box = document.querySelector(".hearts");
-  const icons = ["💗", "💕", "💖", "❤️", "💘", "✨"];
-  for (let i = 0; i < 14; i++) {
-    const h = document.createElement("span");
-    h.textContent = icons[i % icons.length];
-    h.style.left = Math.random() * 100 + "%";
-    h.style.setProperty("--size", 14 + Math.random() * 20 + "px");
-    h.style.setProperty("--dur", 10 + Math.random() * 10 + "s");
-    h.style.setProperty("--delay", -Math.random() * 18 + "s");
-    box.appendChild(h);
+  // Pétales en fond
+  const box = document.querySelector(".petals");
+  for (let i = 0; i < 12; i++) {
+    const p = document.createElement("i");
+    p.style.left = Math.random() * 100 + "%";
+    p.style.setProperty("--s", 9 + Math.random() * 10 + "px");
+    p.style.setProperty("--d", 12 + Math.random() * 12 + "s");
+    p.style.setProperty("--delay", -Math.random() * 20 + "s");
+    p.style.setProperty("--x", (Math.random() * 120 - 60) + "px");
+    box.appendChild(p);
   }
 })();
